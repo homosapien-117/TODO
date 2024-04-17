@@ -3,10 +3,12 @@ import "./App.css";
 function App() {
   const [toDos, setTodos] = useState([]);
   const [toDo, setTodo] = useState("");
+  const [error, setError] = useState("");
   const deleteTodo = (id) => {
     setTodos(toDos.filter((todo) => todo.id !== id));
   };
   return (
+    
     <div className="app">
       <div className="mainHeading">
         <h1>ToDo List</h1>
@@ -25,18 +27,25 @@ function App() {
         <i
           className="fas fa-plus"
           onClick={() =>{
+            if (toDo.trim() === "") {
+              setError("Task cannot be empty!");
+              return;
+            }
             setTodos([...toDos, { id: Date.now(), text: toDo, status: false }]);
             setTodo("");
+            setError("");
           }   
           }
         ></i>
       </div>
+      {error && <p className="error">{error}</p>}
       <div className="todos">
         {toDos.map((obj) => {
           return (
             <div className="todo">
               <div className="left">
-                <input
+                <i
+                nput
                   onChange={(event) => {
                     console.log(event.target.checked);
                     console.log(obj);
